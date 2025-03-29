@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+
+  auth_service:
+    build:
+      context: ../..
+      dockerfile: ./deployments/docker/auth-service.dockerfile
+    environment:
+      LOCAL: ${LOCAL}
+      NAME: ${NAME}
+      ADDRESS: ${ADDRESS}
+      GRPC_PORT: ${GRPC_PORT}
+      START_TIMEOUT: ${START_TIMEOUT}
+      SHUTDOWN_TIMEOUT: ${SHUTDOWN_TIMEOUT}
+      CONSUL_URL: ${CONSUL_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_ACCESS_EXPIRATION_TIME: ${JWT_ACCESS_EXPIRATION_TIME}
+      JWT_REFRESH_EXPIRATION_TIME: ${JWT_REFRESH_EXPIRATION_TIME}
+      USERS_SERVICE_ADDRESS: ${USERS_SERVICE_ADDRESS}
+      REDIS_URL: auth_redis:6379
+      RABBIT_URL: ${RABBIT_URL}
+    networks:
+      - bw_auth-net
+      - bw_gateway-net
+    depends_on:
+      - auth_redis
+
+  auth_redis:
+    image: redis:7.4.2-alpine
+    ports:
+      - ${REDIS_DB_PORT}:6379
+    volumes:
+      - bw_auth_redis_data:/data
+    networks:
+      - bw_auth-net
+
+networks:
+  bw_gateway-net:
+  bw_auth-net:
+
+volumes:
+  bw_auth_redis_data:
