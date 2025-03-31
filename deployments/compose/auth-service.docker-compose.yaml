@@ -19,10 +19,11 @@ services:
       JWT_REFRESH_EXPIRATION_TIME: ${JWT_REFRESH_EXPIRATION_TIME}
       USERS_SERVICE_ADDRESS: ${USERS_SERVICE_ADDRESS}
       REDIS_URL: auth_redis:6379
-      RABBIT_URL: ${RABBIT_URL}
+      RABBIT_URL: amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@mail_rabbit:${RABBITMQ_PORT}
     networks:
       - bw_auth-net
       - bw_gateway-net
+      - bw_mail-net
     depends_on:
       - auth_redis
 
@@ -38,6 +39,7 @@ services:
 networks:
   bw_gateway-net:
   bw_auth-net:
+  bw_mail-net:
 
 volumes:
   bw_auth_redis_data:

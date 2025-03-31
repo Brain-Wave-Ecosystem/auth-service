@@ -10,7 +10,7 @@ type Config struct {
 	JWT          JWTConfig    `envPrefix:"JWT_"`
 	Redis        RedisConfig  `envPrefix:"REDIS_"`
 	UsersService UsersService `envPrefix:"USERS_SERVICE_"`
-	Rabbit       RabbitConfig `envPrefix:"REBBIT_"`
+	Rabbit       RabbitConfig `envPrefix:"RABBIT_"`
 }
 
 type JWTConfig struct {
