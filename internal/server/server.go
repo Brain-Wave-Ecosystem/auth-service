@@ -80,7 +80,7 @@ func NewServer(_ context.Context, cfg *config.Config) (*Server, error) {
 	)
 	if err != nil {
 		logger.Zap().Error("Failed to create users client", zap.Error(err))
-		//return nil, err
+		return nil, err
 	}
 
 	publisher, err := rabbits.NewPublisher(cfg.Rabbit.URL, rabbits.JSON,
@@ -90,7 +90,7 @@ func NewServer(_ context.Context, cfg *config.Config) (*Server, error) {
 	)
 	if err != nil {
 		logger.Zap().Error("Failed to create rabbit publisher", zap.Error(err))
-		// return nil, err
+		return nil, err
 	}
 
 	cl.PushIO(publisher)
